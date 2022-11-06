@@ -9,12 +9,14 @@ import SwiftUI
 
 enum Hint: String {
     case login = "Use your email or alphanumeric characters in a range from 3 to 50. First character must be a letter."
+    case displayName = "Use alphanumeric characters and spaces in a range from 3 to 20. Cannot contain more than one space in a row."
     case password = "Use alphanumeric characters in a range from 8 to 12. First character must be a letter."
 }
 
 enum Regex: String {
     case login = "^[a-zA-Z][a-zA-Z0-9]{2,49}$"
     case email = "^[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,49}$"
+    case displayName = "^(?=.{3,20}$)(?!.*([\\s])\\1{2})[\\w\\s]+$"
     case password = "^[a-zA-Z][a-zA-Z0-9]{7,11}$"
 }
 
@@ -22,7 +24,7 @@ struct LoginScreen: View {
     
     @State private var isValidLogin: Bool = false
     @State private var isValidPassword: Bool = false
-    @State private var isFocused: Bool?
+    @State private var isValidDisplayName: Bool = false
     
     init() {
         setupNavigationBarAppearance(titleColor: UIColor.white, barColor: UIColor(.blue))
@@ -30,15 +32,17 @@ struct LoginScreen: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 28) {
+            VStack(spacing: 18) {
                 
                 InfoText().padding(.top, 44)
                 
-                LoginTextField(isValidLogin: $isValidLogin, isFocused: $isFocused)
+                LoginTextField(isValidLogin: $isValidLogin)
                 
-                PasswordTextField(isValidPassword: $isValidPassword, isFocused: $isFocused)
+                DisplayNameTextField(isValidDisplayName: $isValidDisplayName)
                 
-                LoginButton(isValidLogin: $isValidLogin, isValidPassword: $isValidPassword)
+                PasswordTextField(isValidPassword: $isValidPassword)
+                
+                LoginButton(isValidLogin: $isValidLogin, isValidPassword: $isValidPassword, isValidDisplayName: $isValidDisplayName)
                 
                 Spacer()
             }
