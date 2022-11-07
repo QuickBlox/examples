@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LoginButton : View {
+struct LoginButton111 : View {
 
     @Binding var isValidLogin: Bool
     @Binding var isValidPassword: Bool

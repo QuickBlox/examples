@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LoginTextField : View {
     
-    @State var login: String = ""
+    @Binding var login: String
     @Binding var isValidLogin: Bool
     
     var body: some View {

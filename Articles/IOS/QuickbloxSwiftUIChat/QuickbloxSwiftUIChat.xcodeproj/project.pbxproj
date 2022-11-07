@@ -17,6 +17,7 @@
 		2C513AED290ECE7A0034909F /* TextFieldHint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C513AEC290ECE7A0034909F /* TextFieldHint.swift */; };
 		2C9E094B2917C553009AC7FA /* BaseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E094A2917C553009AC7FA /* BaseTextField.swift */; };
 		2C9E094D2917C7BA009AC7FA /* DisplayNameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E094C2917C7BA009AC7FA /* DisplayNameTextField.swift */; };
+		2C9E095129180A85009AC7FA /* DialogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E095029180A85009AC7FA /* DialogsView.swift */; };
 		2CA4183B290D3929001D9EA8 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA4183A290D3929001D9EA8 /* String+Extension.swift */; };
 		2CC3EB0B290EAB7200B45334 /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC3EB0A290EAB7200B45334 /* LoginButton.swift */; };
 		2CC3EB0D290EAC2200B45334 /* TextFieldName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC3EB0C290EAC2200B45334 /* TextFieldName.swift */; };
@@ -37,6 +38,7 @@
 		2C513AEC290ECE7A0034909F /* TextFieldHint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldHint.swift; sourceTree = "<group>"; };
 		2C9E094A2917C553009AC7FA /* BaseTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTextField.swift; sourceTree = "<group>"; };
 		2C9E094C2917C7BA009AC7FA /* DisplayNameTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayNameTextField.swift; sourceTree = "<group>"; };
+		2C9E095029180A85009AC7FA /* DialogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogsView.swift; sourceTree = "<group>"; };
 		2CA4183A290D3929001D9EA8 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		2CC3EB0A290EAB7200B45334 /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
 		2CC3EB0C290EAC2200B45334 /* TextFieldName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldName.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		2C513AF0290ED0230034909F /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				2C9E094F29180A6C009AC7FA /* DialogsScreen */,
 				2C513AF1290ED03E0034909F /* LoginScreen */,
 			);
 			path = Screens;
@@ -166,6 +169,14 @@
 				2C9E094A2917C553009AC7FA /* BaseTextField.swift */,
 			);
 			path = TextFields;
+			sourceTree = "<group>";
+		};
+		2C9E094F29180A6C009AC7FA /* DialogsScreen */ = {
+			isa = PBXGroup;
+			children = (
+				2C9E095029180A85009AC7FA /* DialogsView.swift */,
+			);
+			path = DialogsScreen;
 			sourceTree = "<group>";
 		};
 		C96B617248B593D062852F18 /* Pods */ = {
@@ -307,6 +318,7 @@
 				2CD66B5728E0B6D800A9A888 /* LoginScreen.swift in Sources */,
 				2C4B4B4A28E9EAA7007B5EB3 /* View+Extension.swift in Sources */,
 				2CA4183B290D3929001D9EA8 /* String+Extension.swift in Sources */,
+				2C9E095129180A85009AC7FA /* DialogsView.swift in Sources */,
 				2CC3EB0D290EAC2200B45334 /* TextFieldName.swift in Sources */,
 				2C9E094D2917C7BA009AC7FA /* DisplayNameTextField.swift in Sources */,
 				2C513AED290ECE7A0034909F /* TextFieldHint.swift in Sources */,
