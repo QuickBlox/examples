@@ -77,6 +77,8 @@ struct RepresentableTextField: UIViewRepresentable {
     func updateUIView(_ uiView: UITextField, context: Context) {
         uiView.text = text
         uiView.isSecureTextEntry = isSecure
+        uiView.autocapitalizationType = .none
+        uiView.autocorrectionType = .no
     }
     
     class Coordinator: NSObject, UITextFieldDelegate {

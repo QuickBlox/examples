@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PasswordTextField : View {
     
-    @State var password: String = ""
+    @Binding var password: String
     @Binding var isValidPassword: Bool
     
     var body: some View {

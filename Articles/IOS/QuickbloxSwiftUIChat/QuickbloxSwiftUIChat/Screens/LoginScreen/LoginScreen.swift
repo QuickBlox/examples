@@ -6,6 +6,17 @@
 //
 
 import SwiftUI
+import Quickblox
+
+struct LoginConstant {
+    static let enterToChat = "Enter to chat"
+    static let fullNameDidChange = "Full Name Did Change"
+    static let signUp = "Signg up ..."
+    static let intoChat = "Login into chat ..."
+    static let withCurrentUser = "Login with current user ..."
+    static let enterUsername = "Enter your login and display name"
+    static let noInternetConnection = "No Internet Connection"
+}
 
 enum Hint: String {
     case login = "Use your email or alphanumeric characters in a range from 3 to 50. First character must be a letter."
@@ -22,9 +33,18 @@ enum Regex: String {
 
 struct LoginScreen: View {
     
+    @State private var login: String = ""
+    @State private var password: String = ""
+    @State private var displayName: String = ""
+    
     @State private var isValidLogin: Bool = false
     @State private var isValidPassword: Bool = false
     @State private var isValidDisplayName: Bool = false
+    
+    @State private var loginInfo = LoginConstant.enterUsername
+    @State private var isLoggedSuccess: Bool = false
+    
+    private let authModule = AuthModule()
     
     init() {
         setupNavigationBarAppearance(titleColor: UIColor.white, barColor: UIColor(.blue))
@@ -34,22 +54,65 @@ struct LoginScreen: View {
         NavigationView {
             VStack(spacing: 18) {
                 
-                InfoText().padding(.top, 44)
+                InfoText(loginInfo: $loginInfo).padding(.top, 44)
                 
-                LoginTextField(isValidLogin: $isValidLogin)
+                LoginTextField(login: $login,
+                               isValidLogin: $isValidLogin)
                 
-                DisplayNameTextField(isValidDisplayName: $isValidDisplayName)
+                DisplayNameTextField(displayName: $displayName,
+                                     isValidDisplayName: $isValidDisplayName)
                 
-                PasswordTextField(isValidPassword: $isValidPassword)
+                PasswordTextField(password: $password,
+                                  isValidPassword: $isValidPassword)
                 
-                LoginButton(isValidLogin: $isValidLogin, isValidPassword: $isValidPassword, isValidDisplayName: $isValidDisplayName)
+                LoginButton(isValidLogin: $isValidLogin,
+                            isValidPassword: $isValidPassword,
+                            isValidDisplayName: $isValidDisplayName,
+                            onTapped: {
+                    authModule.enterToChat(fullName: displayName,
+                                           login: login,
+                                           password: password) { error in
+                        if let error = error {
+                            self.handleError(error)
+                            return
+                        }
+                        //did Login action
+                        self.isLoggedSuccess = true
+                    }
+                })
+                
+                NavigationLink(isActive: $isLoggedSuccess) {
+                    DialogsView()
+                } label: {}.hidden()
                 
                 Spacer()
             }
             .padding()
             .background(.secondary.opacity(0.1))
-            .navigationBarTitle("Enter to chat", displayMode: .inline)
+            .navigationBarTitle(LoginConstant.enterToChat, displayMode: .inline)
         }
+    }
+    
+    //MARK: - Internal Methods
+    private func defaultConfiguration() {
+        displayName = ""
+        login = ""
+        password = ""
+        isValidLogin = false
+        isValidPassword = false
+        isValidDisplayName = false
+        loginInfo = LoginConstant.enterUsername
+        isLoggedSuccess = false
+    }
+    
+    private func handleError(_ error: Error) {
+        var infoText = error.localizedDescription
+        if error._code == QBResponseStatusCode.unAuthorized.rawValue {
+            defaultConfiguration()
+        } else if error.isNetworkError == true {
+            infoText = LoginConstant.noInternetConnection
+        }
+        loginInfo = infoText
     }
 }
 
@@ -60,8 +123,11 @@ struct LoginScreen_Previews: PreviewProvider {
 }
 
 struct InfoText: View {
+    
+    @Binding var loginInfo: String
+    
     var body: some View {
-        return Text("Enter your login and password")
+        return Text(loginInfo)
             .font(.system(size: 16, weight: .light))
             .foregroundColor(.primary)
     }

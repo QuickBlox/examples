@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DisplayNameTextField : View {
     
-    @State var displayName: String = ""
+    @Binding var displayName: String
     @Binding var isValidDisplayName: Bool
     
     var body: some View {
