@@ -15,6 +15,7 @@ struct LoginConstant {
     static let intoChat = "Login into chat ..."
     static let withCurrentUser = "Login with current user ..."
     static let enterUsername = "Enter your login and display name"
+    static let noInternetConnection = "No Internet Connection"
 }
 
 enum Hint: String {
@@ -43,6 +44,8 @@ struct LoginScreen: View {
     @State private var loginInfo = LoginConstant.enterUsername
     @State private var isLoggedSuccess: Bool = false
     
+    private let authModule = AuthModule()
+    
     init() {
         setupNavigationBarAppearance(titleColor: UIColor.white, barColor: UIColor(.blue))
     }
@@ -62,26 +65,25 @@ struct LoginScreen: View {
                 PasswordTextField(password: $password,
                                   isValidPassword: $isValidPassword)
                 
-                Button {
-                    signUp(fullName: displayName, login: login, password: password)
-                } label: {
-                    Text("Login")
-                        .foregroundColor(.white)
-                        .font(.system(size: 18))
-                        .frame(width: 215, height: 44, alignment: .center)
-                }
-                .disabled((isValidLogin && isValidPassword && isValidDisplayName) == false)
-                .background((isValidLogin && isValidPassword && isValidDisplayName) == true ? .blue : .secondary)
-                .cornerRadius(4)
-                .shadow(color: (isValidLogin && isValidPassword && isValidDisplayName) == true ? .blue.opacity(0.7) : .clear,
-                        radius: 14, x: 0, y: 9)
-                .padding(.top, 36)
+                LoginButton(isValidLogin: $isValidLogin,
+                            isValidPassword: $isValidPassword,
+                            isValidDisplayName: $isValidDisplayName,
+                            onTapped: {
+                    authModule.enterToChat(fullName: displayName,
+                                           login: login,
+                                           password: password) { error in
+                        if let error = error {
+                            self.handleError(error)
+                            return
+                        }
+                        //did Login action
+                        self.isLoggedSuccess = true
+                    }
+                })
                 
                 NavigationLink(isActive: $isLoggedSuccess) {
                     DialogsView()
-                } label: {
-                    
-                }.hidden()
+                } label: {}.hidden()
                 
                 Spacer()
             }
@@ -92,91 +94,24 @@ struct LoginScreen: View {
     }
     
     //MARK: - Internal Methods
-    private func signUp(fullName: String, login: String, password: String) {
-        loginInfo = LoginConstant.signUp
-        let newUser = QBUUser()
-        newUser.login = login
-        newUser.fullName = fullName
-        newUser.password = password
-        QBRequest.signUp(newUser, successBlock: { response, user in
-
-            self.login(fullName: fullName, login: login, password: password)
-            
-        }, errorBlock: { response in
-            
-            if response.status == QBResponseStatusCode.validationFailed {
-                // The user with existent login was created earlier
-                self.login(fullName: fullName, login: login, password: password)
-                return
-            }
-            if let error = response.error?.error {
-                self.handleError(error)
-            }
-        })
+    private func defaultConfiguration() {
+        displayName = ""
+        login = ""
+        password = ""
+        isValidLogin = false
+        isValidPassword = false
+        isValidDisplayName = false
+        loginInfo = LoginConstant.enterUsername
+        isLoggedSuccess = false
     }
     
-    private func login(fullName: String, login: String, password: String) {
-        QBRequest.logIn(withUserLogin: login,
-                        password: password,
-                        successBlock: { response, user in
-            
-            user.password = password
-            if user.fullName != fullName {
-                self.updateFullName(fullName: fullName, login: login, password: password)
-            } else {
-                self.connectToChat(userID: user.id, password: password)
-            }
-            
-        }, errorBlock: {  response in
-            if let error = response.error?.error {
-                self.handleError(error)
-            }
-        })
-    }
-    
-    private func updateFullName(fullName: String, login: String, password: String) {
-        loginInfo = LoginConstant.fullNameDidChange
-        let updateUserParameter = QBUpdateUserParameters()
-        updateUserParameter.fullName = fullName
-        QBRequest.updateCurrentUser(updateUserParameter, successBlock: {  response, user in
-            
-            self.connectToChat(userID: user.id, password: password)
-            
-        }, errorBlock: {  response in
-            if let error = response.error?.error {
-                self.handleError(error)
-            }
-        })
-    }
-    
-    private func connectToChat(userID: UInt, password: String) {
-        loginInfo = LoginConstant.intoChat
-        QBChat.instance.connect(withUserID: userID,
-                                password: password,
-                                completion: { error in
-            if let error = error, error._code != -1000, error._code != 1 {
-                self.handleError(error)
-            } else {
-                //did Login action
-                self.displayName = ""
-                self.login = ""
-                self.password = ""
-                self.isLoggedSuccess = true
-            }
-        })
-    }
-    
-    // MARK: - Handle errors
     private func handleError(_ error: Error) {
         var infoText = error.localizedDescription
         if error._code == QBResponseStatusCode.unAuthorized.rawValue {
-//            Profile.clear()
-            //            self.defaultConfiguration()
-        } else if error._code == NSURLErrorNotConnectedToInternet {
-//            infoText = ConnectionConstant.noInternetConnection
+            defaultConfiguration()
+        } else if error.isNetworkError == true {
+            infoText = LoginConstant.noInternetConnection
         }
-        //        inputEnabled = true
-        //        loginButton.hideLoading()
         loginInfo = infoText
     }
 }
