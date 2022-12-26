@@ -9,38 +9,10 @@ import UIKit
 import Quickblox
 
 struct Dialog: Identifiable {
-    private var dialog: QBChatDialog
+    private var dialog: QBChatDialog!
     
     init(dialog: QBChatDialog) {
         self.dialog = dialog
-    }
-    
-    func send(_ chatMessage: QBChatMessage, completion:@escaping (_ error: Error?) -> Void) {
-        dialog.send(chatMessage, completionBlock: { error in
-            if let error = error {
-                debugPrint("[Dialog] \(#function) error: \(error.localizedDescription)")
-            }
-            completion(error)
-        })
-    }
-    
-    func joinWithCompletion(_ completion:@escaping QBChatCompletionBlock) {
-        if type != .private, dialog.isJoined() {
-            completion(nil)
-            return
-        }
-        dialog.join { error in
-            if let error = error {
-                debugPrint("error._code = \(error._code)")
-                if error._code == -1006 {
-                    completion(nil)
-                    return
-                }
-                completion(error)
-                return
-            }
-            completion(nil)
-        }
     }
     
     //MARK - Properties
@@ -62,10 +34,6 @@ struct Dialog: Identifiable {
     
     var id: String? {
         return dialog.id
-    }
-    
-    var photo: String? {
-        return dialog.photo
     }
     
     var lastMessageText: String {
@@ -101,10 +69,10 @@ struct Dialog: Identifiable {
     }
     
     var title: String {
-        var text = dialog.name ?? "UN"
+        var text = dialog.name ?? "Dialog"
         if dialog.type == .private {
             if dialog.recipientID == -1 {
-                return "UN"
+                return "Dialog"
             }
             // Getting recipient from users.
             if let recipient = ChatManager.instance.storage.user(withID: UInt(dialog.recipientID)) {
@@ -135,6 +103,35 @@ struct Dialog: Identifiable {
     
     var avatarCharacter: String {
         return String(self.title.stringByTrimingWhitespace().capitalized.first ?? Character("C"))
+    }
+    
+    //MARK - Public Methods
+    func send(_ chatMessage: QBChatMessage, completion:@escaping (_ error: Error?) -> Void) {
+        dialog.send(chatMessage, completionBlock: { error in
+            if let error = error {
+                debugPrint("[Dialog] \(#function) error: \(error.localizedDescription)")
+            }
+            completion(error)
+        })
+    }
+    
+    func joinWithCompletion(_ completion:@escaping QBChatCompletionBlock) {
+        if type != .private, dialog.isJoined() {
+            completion(nil)
+            return
+        }
+        dialog.join { error in
+            if let error = error {
+                debugPrint("error._code = \(error._code)")
+                if error._code == -1006 {
+                    completion(nil)
+                    return
+                }
+                completion(error)
+                return
+            }
+            completion(nil)
+        }
     }
 }
 

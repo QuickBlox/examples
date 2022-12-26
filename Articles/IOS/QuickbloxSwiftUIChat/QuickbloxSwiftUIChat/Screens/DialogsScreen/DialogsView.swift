@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Quickblox
-import Combine
 import UIKit
 
 struct DialogsView: View {
@@ -21,20 +20,23 @@ struct DialogsView: View {
     @State var dialogs: [Dialog] = []
     
     var body: some View {
-        //        NavigationView {
         ZStack {
             Color.white.edgesIgnoringSafeArea(.all)
             Color.clear
                 .overlay(
                     List {
                         ForEach(dialogs) { dialog in
+                            Text(dialog.name )
+                        }
+                        ForEach(dialogs) { dialog in
+                            Text(dialog.name)
                             ZStack {
-                                //                                DialogView(dialog: dialog)
+                                DialogView(dialog: dialog)
                                 //                                NavigationLink(destination: ChatView(dialog: dialog)) {
                                 //                                    EmptyView()
                                 //                                }
-                                .frame(width: 0)
-                                .opacity(0)
+                                    .frame(width: 0)
+                                    .opacity(0)
                             }
                             .padding(.vertical, 4)
                             .padding(.leading, -3)
@@ -53,7 +55,6 @@ struct DialogsView: View {
                         }
                 )}
         
-        
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: Button(action: { didTapLogout() }) {
             Image(uiImage: UIImage(named: "exit") ?? UIImage())
@@ -65,10 +66,6 @@ struct DialogsView: View {
         .navigationBarItems(trailing: Button(action: {}) {
             Image(uiImage: UIImage(named: "icon-info") ?? UIImage())
         })
-        
-        
-        
-        
     }
     
     private func didTapLogout() {
