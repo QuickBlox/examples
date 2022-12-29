@@ -16,7 +16,7 @@ struct ChatManagerConstant {
 }
 
 typealias DialogsPage = (_ page: QBResponsePage) -> Void
-typealias DialogsFetchCompletion = (_ response: QBResponse?, _ dialogs: [QBChatDialog]?) -> Void
+//typealias DialogsFetchCompletion = (_ response: QBResponse?, _ dialogs: [QBChatDialog]?) -> Void
 typealias DialogCompletion = (_ error: String?, _ dialog: Dialog?) -> Void
 typealias UsersPage = (_ page: QBGeneralResponsePage) -> Void
 //typealias SendMessageCompletion = (_ error: Error?) -> Void
@@ -34,133 +34,133 @@ class ChatManager: NSObject {
     }()
     
     //MARK: - Public Methods
-    func updateStorage() {
-        if QBChat.instance.isConnected == false {
-            return
-        }
-        var message = ""
-        updateAllDialogs(withPageLimit: ChatManagerConstant.dialogsPageLimit,
-                         completion: { (response, dialogs) -> Void in
-            if let response = response {
-                message = response.error?.error?.localizedDescription ?? ""
-            }
-            if message.isEmpty, let updatedDialogs = dialogs {
-                self.storage.updateAllDialogs(updatedDialogs) {
-//                    self.delegate?.chatManager(self, didUpdateStorage: "Completed")
-                }
-            } else {
-//                self.delegate?.chatManager(self, didFailUpdateStorage: message)
-            }
-        })
-    }
+//    func updateStorage() {
+//        if QBChat.instance.isConnected == false {
+//            return
+//        }
+//        var message = ""
+//        updateAllDialogs(withPageLimit: ChatManagerConstant.dialogsPageLimit,
+//                         completion: { (response, dialogs) -> Void in
+//            if let response = response {
+//                message = response.error?.error?.localizedDescription ?? ""
+//            }
+//            if message.isEmpty, let updatedDialogs = dialogs {
+//                self.storage.updateAllDialogs(updatedDialogs) {
+////                    self.delegate?.chatManager(self, didUpdateStorage: "Completed")
+//                }
+//            } else {
+////                self.delegate?.chatManager(self, didFailUpdateStorage: message)
+//            }
+//        })
+//    }
     
     //MARK: - Users
-    func loadUser(_ id: UInt, completion: ((QBUUser?) -> Void)? = nil) {
-        QBRequest.user(withID: id, successBlock: { (response, user) in
-            self.storage.update(users: [user])
-            completion?(user)
-        }) { (response) in
-            debugPrint("[ChatManager] loadUser error: \(response.error?.error?.localizedDescription ?? "")")
-            completion?(nil)
-        }
-    }
-    
-    func searchUsers(_ name: String,  currentPage: UInt, perPage: UInt, completion: @escaping (_ response: QBResponse?, _ objects: [QBUUser], _ cancel: Bool) -> Void) {
-        let page = QBGeneralResponsePage(currentPage: currentPage, perPage: perPage)
-        QBRequest.users(withFullName: name, page: page,
-                        successBlock: { (response, page, users) in
-            let cancel = users.count < page.perPage
-            completion(nil, users, cancel)
-        }, errorBlock: { response in
-            completion(response, [], false)
-            debugPrint("[ChatManager] searchUsers error: \(response.error?.error?.localizedDescription ?? "")")
-        })
-    }
-    
-    func fetchUsers(currentPage: UInt, perPage: UInt, completion: @escaping (_ response: QBResponse?, _ objects: [QBUUser], _ cancel: Bool) -> Void) {
-        let page = QBGeneralResponsePage(currentPage: currentPage, perPage: perPage)
-        QBRequest.users(withExtendedRequest: ["order": "desc date last_request_at"],
-                        page: page,
-                        successBlock: { (response, page, users) in
-            let cancel = users.count < page.perPage
-            completion(nil, users, cancel)
-        }, errorBlock: { response in
-            completion(response, [], false)
-            debugPrint("[ChatManager] searchUsers error: \(response.error?.error?.localizedDescription ?? "")")
-        })
-    }
-    
-    // MARK: - Dialogs
-    func createPrivateDialog(withOpponent opponent: QBUUser,
-                             completion: DialogCompletion? = nil) {
-        if opponent.id <= 0 {
-            debugPrint("[ChatManager] \(#function) error: Incorrect user ID")
-            return
-        }
-        
-        if let dialog = storage.privateDialog(opponentID: opponent.id) {
-            completion?(nil, dialog)
-        } else {
-            let currentUser = Profile()
-            guard currentUser.isFull == true else {
-                return
-            }
-            let dialog = QBChatDialog(dialogID: nil, type: .private)
-            dialog.occupantIDs = [NSNumber(value: opponent.id)]
-            QBRequest.createDialog(dialog, successBlock: { response, createdDialog in
-                if createdDialog.isValid == false {
-                    completion
-                }
-                self.storage.update(dialog: createdDialog) { updatedDialog in
-                    guard let dialog = updatedDialog else {
-                        completion?(nil, updatedDialog)
-                    }
-                    let message = "created the private chat with " + (opponent.fullName ?? "QBUser")
-//                    self.delegate?.chatManager(self, didUpdateStorage: message)
-                    completion?(nil, updatedDialog)
-                    //Notify carbon user about create new private dialog
-//                    self.sendCreate(to: createdDialog)
-                }
-            }, errorBlock: { response in
-                debugPrint("[ChatManager] \(#function) error: \(response.error?.error?.localizedDescription ?? "")")
-                completion?(response.error?.error?.localizedDescription ?? "", nil)
-            })
-        }
-    }
-    
-    func createGroupDialog(withName name: String,
-                           photo: String?,
-                           occupants: [QBUUser],
-                           completion: DialogCompletion? = nil) {
-        
-        
-        let chatDialog = QBChatDialog(dialogID: nil, type: .group)
-        
-        chatDialog.name = name
-        chatDialog.occupantIDs = occupants.map({ NSNumber(value: $0.id) })
-        
-        QBRequest.createDialog(chatDialog, successBlock: { response, dialog in
-            dialog.joinWithCompletion { error in
-                if let error = error {
-                    debugPrint("[ChatStorage] dialog.join error: \(error.localizedDescription)")
-                }
-                //Notify about create new dialog
-//                self.sendCreate(to: dialog) { error in
-//                    if let error = error {
-//                        debugPrint("[ChatStorage] dialog.join error: \(error.localizedDescription)")
-//                    }
-                    self.storage.update(dialog:dialog) {
-                        let message = "created the group chat " + dialog.name!
-//                        self.delegate?.chatManager(self, didUpdateStorage: message)
-                        completion?(error?.localizedDescription, dialog)
-                    }
+//    func loadUser(_ id: UInt, completion: ((QBUUser?) -> Void)? = nil) {
+//        QBRequest.user(withID: id, successBlock: { (response, user) in
+//            self.storage.update(users: [user])
+//            completion?(user)
+//        }) { (response) in
+//            debugPrint("[ChatManager] loadUser error: \(response.error?.error?.localizedDescription ?? "")")
+//            completion?(nil)
+//        }
+//    }
+//
+//    func searchUsers(_ name: String,  currentPage: UInt, perPage: UInt, completion: @escaping (_ response: QBResponse?, _ objects: [QBUUser], _ cancel: Bool) -> Void) {
+//        let page = QBGeneralResponsePage(currentPage: currentPage, perPage: perPage)
+//        QBRequest.users(withFullName: name, page: page,
+//                        successBlock: { (response, page, users) in
+//            let cancel = users.count < page.perPage
+//            completion(nil, users, cancel)
+//        }, errorBlock: { response in
+//            completion(response, [], false)
+//            debugPrint("[ChatManager] searchUsers error: \(response.error?.error?.localizedDescription ?? "")")
+//        })
+//    }
+//
+//    func fetchUsers(currentPage: UInt, perPage: UInt, completion: @escaping (_ response: QBResponse?, _ objects: [QBUUser], _ cancel: Bool) -> Void) {
+//        let page = QBGeneralResponsePage(currentPage: currentPage, perPage: perPage)
+//        QBRequest.users(withExtendedRequest: ["order": "desc date last_request_at"],
+//                        page: page,
+//                        successBlock: { (response, page, users) in
+//            let cancel = users.count < page.perPage
+//            completion(nil, users, cancel)
+//        }, errorBlock: { response in
+//            completion(response, [], false)
+//            debugPrint("[ChatManager] searchUsers error: \(response.error?.error?.localizedDescription ?? "")")
+//        })
+//    }
+//
+//    // MARK: - Dialogs
+//    func createPrivateDialog(withOpponent opponent: QBUUser,
+//                             completion: DialogCompletion? = nil) {
+//        if opponent.id <= 0 {
+//            debugPrint("[ChatManager] \(#function) error: Incorrect user ID")
+//            return
+//        }
+//
+//        if let dialog = storage.privateDialog(opponentID: opponent.id) {
+//            completion?(nil, dialog)
+//        } else {
+//            let currentUser = Profile()
+//            guard currentUser.isFull == true else {
+//                return
+//            }
+//            let dialog = QBChatDialog(dialogID: nil, type: .private)
+//            dialog.occupantIDs = [NSNumber(value: opponent.id)]
+//            QBRequest.createDialog(dialog, successBlock: { response, createdDialog in
+//                if createdDialog.isValid == false {
+//                    completion
 //                }
-            }
-        }, errorBlock: { response in
-            debugPrint("[ChatManager] createGroupDialog error: \(response.error?.error?.localizedDescription ?? "")")
-            completion?(response.error?.error?.localizedDescription ?? "", nil)
-        })
-    }
+//                self.storage.update(dialog: createdDialog) { updatedDialog in
+//                    guard let dialog = updatedDialog else {
+//                        completion?(nil, updatedDialog)
+//                    }
+//                    let message = "created the private chat with " + (opponent.fullName ?? "QBUser")
+////                    self.delegate?.chatManager(self, didUpdateStorage: message)
+//                    completion?(nil, updatedDialog)
+//                    //Notify carbon user about create new private dialog
+////                    self.sendCreate(to: createdDialog)
+//                }
+//            }, errorBlock: { response in
+//                debugPrint("[ChatManager] \(#function) error: \(response.error?.error?.localizedDescription ?? "")")
+//                completion?(response.error?.error?.localizedDescription ?? "", nil)
+//            })
+//        }
+//    }
+//
+//    func createGroupDialog(withName name: String,
+//                           photo: String?,
+//                           occupants: [QBUUser],
+//                           completion: DialogCompletion? = nil) {
+//
+//
+//        let chatDialog = QBChatDialog(dialogID: nil, type: .group)
+//
+//        chatDialog.name = name
+//        chatDialog.occupantIDs = occupants.map({ NSNumber(value: $0.id) })
+//
+//        QBRequest.createDialog(chatDialog, successBlock: { response, dialog in
+//            dialog.joinWithCompletion { error in
+//                if let error = error {
+//                    debugPrint("[ChatStorage] dialog.join error: \(error.localizedDescription)")
+//                }
+//                //Notify about create new dialog
+////                self.sendCreate(to: dialog) { error in
+////                    if let error = error {
+////                        debugPrint("[ChatStorage] dialog.join error: \(error.localizedDescription)")
+////                    }
+//                    self.storage.update(dialog:dialog) {
+//                        let message = "created the group chat " + dialog.name!
+////                        self.delegate?.chatManager(self, didUpdateStorage: message)
+//                        completion?(error?.localizedDescription, dialog)
+//                    }
+////                }
+//            }
+//        }, errorBlock: { response in
+//            debugPrint("[ChatManager] createGroupDialog error: \(response.error?.error?.localizedDescription ?? "")")
+//            completion?(response.error?.error?.localizedDescription ?? "", nil)
+//        })
+//    }
     
 //    func leaveDialog(withID dialogId: String, completion: ((String?) -> Void)? = nil) {
 //        let currentUser = Profile()
@@ -469,85 +469,85 @@ class ChatManager: NSObject {
     //MARK: - Internal Methods
     
     //MARK: - Users
-    private func updateUsers(completion: @escaping (_ response: QBResponse?) -> Void) {
-        let firstPage = QBGeneralResponsePage(currentPage: 1, perPage: 100)
-        QBRequest.users(withExtendedRequest: ["order": "desc date last_request_at"],
-                        page: firstPage,
-                        successBlock: { (response, page, users) in
-            self.storage.update(users:users)
-            completion(response)
-        }, errorBlock: { response in
-            completion(response)
-            debugPrint("[ChatManager] updateUsers error: \(response.error?.error?.localizedDescription ?? "")")
-        })
-    }
-    
-    private func loadUsers(_ usersIDs: [String], completion: ((_ response: QBResponse?) -> Void)? = nil) {
-        var skip: UInt = 1
-        var t_request: UsersPage?
-        let request: UsersPage? = { usersPage in
-            QBRequest.users(withIDs: usersIDs,
-                            page: usersPage,
-                            successBlock: { (usersResponse, usersResponsePage, users) in
-                
-                self.storage.update(users: users)
-                
-                skip = skip + 1
-                let cancel = users.count < ChatManagerConstant.usersLimit ? true : false
-                if cancel == false {
-                    
-                    t_request?(QBGeneralResponsePage(currentPage: skip, perPage: ChatManagerConstant.usersLimit))
-                } else {
-                    completion?(usersResponse)
-                    t_request = nil
-                }
-            }, errorBlock: { response in
-                completion?(response)
-                debugPrint("[ChatManager] \(#function) error: \(response.error?.error?.localizedDescription ?? "")")
-                t_request = nil
-            })
-        }
-        t_request = request
-        request?(QBGeneralResponsePage(currentPage: skip, perPage: ChatManagerConstant.usersLimit))
-    }
+//    private func updateUsers(completion: @escaping (_ response: QBResponse?) -> Void) {
+//        let firstPage = QBGeneralResponsePage(currentPage: 1, perPage: 100)
+//        QBRequest.users(withExtendedRequest: ["order": "desc date last_request_at"],
+//                        page: firstPage,
+//                        successBlock: { (response, page, users) in
+//            self.storage.update(users:users)
+//            completion(response)
+//        }, errorBlock: { response in
+//            completion(response)
+//            debugPrint("[ChatManager] updateUsers error: \(response.error?.error?.localizedDescription ?? "")")
+//        })
+//    }
+//    
+//    private func loadUsers(_ usersIDs: [String], completion: ((_ response: QBResponse?) -> Void)? = nil) {
+//        var skip: UInt = 1
+//        var t_request: UsersPage?
+//        let request: UsersPage? = { usersPage in
+//            QBRequest.users(withIDs: usersIDs,
+//                            page: usersPage,
+//                            successBlock: { (usersResponse, usersResponsePage, users) in
+//                
+//                self.storage.update(users: users)
+//                
+//                skip = skip + 1
+//                let cancel = users.count < ChatManagerConstant.usersLimit ? true : false
+//                if cancel == false {
+//                    
+//                    t_request?(QBGeneralResponsePage(currentPage: skip, perPage: ChatManagerConstant.usersLimit))
+//                } else {
+//                    completion?(usersResponse)
+//                    t_request = nil
+//                }
+//            }, errorBlock: { response in
+//                completion?(response)
+//                debugPrint("[ChatManager] \(#function) error: \(response.error?.error?.localizedDescription ?? "")")
+//                t_request = nil
+//            })
+//        }
+//        t_request = request
+//        request?(QBGeneralResponsePage(currentPage: skip, perPage: ChatManagerConstant.usersLimit))
+//    }
     
     //MARK: - Dialogs
-    private func updateAllDialogs(withPageLimit limit: Int,
-                                  extendedParameters: [String: String]? = nil,
-                                  completion: @escaping DialogsFetchCompletion) {
-        var fedchetDialogs: [QBChatDialog] = []
-        var usersForUpdate = Set<NSNumber>()
-        let extendedRequest = extendedParameters?.isEmpty == false ?
-        extendedParameters : ["sort_desc": "last_message_date_sent"]
-        var t_request: DialogsPage?
-        let request: DialogsPage? = { responsePage in
-            QBRequest.dialogs(for: responsePage,
-                              extendedRequest: extendedRequest,
-                              successBlock: { response,
-                dialogs, dialogsUsersIDs, page in
-                
-                fedchetDialogs = fedchetDialogs + dialogs
-                
-                page.skip += dialogs.count
-                let cancel = page.totalEntries <= page.skip
-                usersForUpdate = usersForUpdate.union(dialogsUsersIDs)
-                if usersForUpdate.isEmpty == false {
-                    let usersIDs = usersForUpdate.map({ $0.stringValue })
-                    self.loadUsers(usersIDs)
-                }
-                if cancel == false {
-                    t_request?(page)
-                } else {
-                    completion(response, fedchetDialogs)
-                    t_request = nil
-                }
-            }, errorBlock: { response in
-                completion(response, fedchetDialogs)
-                debugPrint("[\(ChatManager.description())] \(#function) error: \(response.error?.error?.localizedDescription ?? "")")
-                t_request = nil
-            })
-        }
-        t_request = request
-        request?(QBResponsePage(limit: limit))
-    }
+//    private func updateAllDialogs(withPageLimit limit: Int,
+//                                  extendedParameters: [String: String]? = nil,
+//                                  completion: @escaping DialogsFetchCompletion) {
+//        var fedchetDialogs: [QBChatDialog] = []
+//        var usersForUpdate = Set<NSNumber>()
+//        let extendedRequest = extendedParameters?.isEmpty == false ?
+//        extendedParameters : ["sort_desc": "last_message_date_sent"]
+//        var t_request: DialogsPage?
+//        let request: DialogsPage? = { responsePage in
+//            QBRequest.dialogs(for: responsePage,
+//                              extendedRequest: extendedRequest,
+//                              successBlock: { response,
+//                dialogs, dialogsUsersIDs, page in
+//
+//                fedchetDialogs = fedchetDialogs + dialogs
+//
+//                page.skip += dialogs.count
+//                let cancel = page.totalEntries <= page.skip
+//                usersForUpdate = usersForUpdate.union(dialogsUsersIDs)
+//                if usersForUpdate.isEmpty == false {
+//                    let usersIDs = usersForUpdate.map({ $0.stringValue })
+//                    self.loadUsers(usersIDs)
+//                }
+//                if cancel == false {
+//                    t_request?(page)
+//                } else {
+//                    completion(fedchetDialogs)
+//                    t_request = nil
+//                }
+//            }, errorBlock: { response in
+//                completion(fedchetDialogs)
+//                debugPrint("[\(ChatManager.description())] \(#function) error: \(response.error?.error?.localizedDescription ?? "")")
+//                t_request = nil
+//            })
+//        }
+//        t_request = request
+//        request?(QBResponsePage(limit: limit))
+//    }
 }

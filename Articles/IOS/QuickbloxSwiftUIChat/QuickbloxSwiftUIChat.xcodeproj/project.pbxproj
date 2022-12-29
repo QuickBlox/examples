@@ -12,6 +12,7 @@
 		2C167C2128BFE14600D9A424 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C167C2028BFE14600D9A424 /* Preview Assets.xcassets */; };
 		2C167C2828BFE32C00D9A424 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C167C2728BFE32C00D9A424 /* AppDelegate.swift */; };
 		2C1D75292921095C0042C470 /* Error+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1D75282921095C0042C470 /* Error+Extension.swift */; };
+		2C3F2C47295CC72D000B5A39 /* QuickBloxServerAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3F2C46295CC72D000B5A39 /* QuickBloxServerAPI.swift */; };
 		2C4B4B4A28E9EAA7007B5EB3 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4B4B4928E9EAA6007B5EB3 /* View+Extension.swift */; };
 		2C512A0C292AC0D700FA5864 /* ChatStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C512A04292AC0D700FA5864 /* ChatStorage.swift */; };
 		2C512A0D292AC0D700FA5864 /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C512A05292AC0D700FA5864 /* ChatManager.swift */; };
@@ -44,6 +45,7 @@
 		2C167C2028BFE14600D9A424 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2C167C2728BFE32C00D9A424 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C1D75282921095C0042C470 /* Error+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Error+Extension.swift"; sourceTree = "<group>"; };
+		2C3F2C46295CC72D000B5A39 /* QuickBloxServerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickBloxServerAPI.swift; sourceTree = "<group>"; };
 		2C4B4B4928E9EAA6007B5EB3 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		2C512A04292AC0D700FA5864 /* ChatStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStorage.swift; sourceTree = "<group>"; };
 		2C512A05292AC0D700FA5864 /* ChatManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
@@ -137,6 +139,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		2C3F2C45295CC666000B5A39 /* QuickBloxServerAPI */ = {
+			isa = PBXGroup;
+			children = (
+				2C3F2C46295CC72D000B5A39 /* QuickBloxServerAPI.swift */,
+			);
+			path = QuickBloxServerAPI;
+			sourceTree = "<group>";
+		};
 		2C4B4B4828E9EA40007B5EB3 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -148,6 +158,7 @@
 		2C5129FF292A6E9400FA5864 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
+				2C3F2C45295CC666000B5A39 /* QuickBloxServerAPI */,
 				2C512A03292AC0D700FA5864 /* ChatManager */,
 				2C89232C291FF11F00DA746E /* AuthModule */,
 			);
@@ -417,6 +428,7 @@
 				2C1D75292921095C0042C470 /* Error+Extension.swift in Sources */,
 				2C9E094B2917C553009AC7FA /* BaseTextField.swift in Sources */,
 				2CD66B5728E0B6D800A9A888 /* LoginScreen.swift in Sources */,
+				2C3F2C47295CC72D000B5A39 /* QuickBloxServerAPI.swift in Sources */,
 				2C4B4B4A28E9EAA7007B5EB3 /* View+Extension.swift in Sources */,
 				2C70FB13295A05F300139B20 /* User.swift in Sources */,
 				2C89232E291FF13F00DA746E /* AuthModule.swift in Sources */,

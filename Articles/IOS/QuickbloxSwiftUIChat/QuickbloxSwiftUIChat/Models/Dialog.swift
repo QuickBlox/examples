@@ -32,8 +32,8 @@ struct Dialog: Identifiable {
         return dialog.lastMessageUserID
     }
     
-    var id: String? {
-        return dialog.id
+    var id: String {
+        return dialog.id!
     }
     
     var lastMessageText: String {
@@ -70,16 +70,16 @@ struct Dialog: Identifiable {
     
     var title: String {
         var text = dialog.name ?? "Dialog"
-        if dialog.type == .private {
-            if dialog.recipientID == -1 {
-                return "Dialog"
-            }
-            // Getting recipient from users.
-            if let recipient = ChatManager.instance.storage.user(withID: UInt(dialog.recipientID)) {
-                text = recipient.fullName ?? recipient.login!
-                return text
-            }
-        }
+//        if dialog.type == .private {
+//            if dialog.recipientID == -1 {
+//                return "Dialog"
+//            }
+//            // Getting recipient from users.
+//            if let recipient = ChatManager.instance.storage.user(withID: UInt(dialog.recipientID)) {
+//                text = recipient.fullName ?? recipient.login!
+//                return text
+//            }
+//        }
         return text
     }
     

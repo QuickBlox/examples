@@ -11,13 +11,9 @@ import UIKit
 
 struct DialogsView: View {
     
-    init() {
-        //MARK: Disable selection style.
-        UITableViewCell.appearance().selectionStyle = .none
-    }
-    
     @Environment(\.presentationMode) var presentationMode
-    @State var dialogs: [Dialog] = []
+    @State var dialogs: [QBChatDialog] = []
+    let quickBloxServerAPI = QuickBloxServerAPI()
     
     var body: some View {
         ZStack {
@@ -25,72 +21,31 @@ struct DialogsView: View {
             Color.clear
                 .overlay(
                     List {
-                        ForEach(dialogs) { dialog in
-                            Text(dialog.name )
+                        ForEach(dialogs, id: \.self) { dialog in
+                            Text(dialog.name ?? "TestDialog" )
                         }
-                        ForEach(dialogs) { dialog in
-                            Text(dialog.name)
-                            ZStack {
-                                DialogView(dialog: dialog)
-                                //                                NavigationLink(destination: ChatView(dialog: dialog)) {
-                                //                                    EmptyView()
-                                //                                }
-                                    .frame(width: 0)
-                                    .opacity(0)
-                            }
-                            .padding(.vertical, 4)
-                            .padding(.leading, -3)
-                            .listRowSeparator(.hidden)
-                        }
-                        .onDelete(perform: delete)
                     }
                         .listStyle(PlainListStyle())
-                        .refreshable {
-                            self.fetchDialogs()
-                        }
                         .onAppear() {
                             self.fetchDialogs()
-                            UITableView.appearance().allowsSelection = true
-                            UITableViewCell.appearance().selectionStyle = .none
                         }
                 )}
         
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: Button(action: { didTapLogout() }) {
-            Image(uiImage: UIImage(named: "exit") ?? UIImage())
-        })
         .navigationBarTitle("Chats", displayMode: .inline)
-        .navigationBarItems(trailing: Button(action: {}) {
-            Image(uiImage: UIImage(named: "add") ?? UIImage())
-        })
-        .navigationBarItems(trailing: Button(action: {}) {
-            Image(uiImage: UIImage(named: "icon-info") ?? UIImage())
-        })
-    }
-    
-    private func didTapLogout() {
-        if QBChat.instance.isConnected == false {
-            return
-        }
-        self.presentationMode.wrappedValue.dismiss()
     }
     
     func fetchDialogs() {
-        ChatManager.instance.updateAllDialogs(withPageLimit: 100,
-                                              completion: { (response: QBResponse?) -> Void in
-            if let error = response?.error?.error?.localizedDescription {
-                //                self.errorMessage = error
+        quickBloxServerAPI.fetchDialogs { result in
+            switch result {
+            case .success(let dialogs):
+                guard let dialogs = dialogs else { return }
+                DispatchQueue.main.async {
+                    self.dialogs = dialogs
+                }
+            case .failure(let error):
+                debugPrint("[DialogsView] \(#function) error: \(error.localizedDescription)")
             }
-            DispatchQueue.main.async {
-                self.dialogs = ChatManager.instance.storage.dialogsSortByUpdatedAt()
-            }
-            
-        })
-        
-    }
-    
-    func delete(at offsets: IndexSet) {
-        self.dialogs.remove(atOffsets: offsets)
+        }
     }
 }
 
