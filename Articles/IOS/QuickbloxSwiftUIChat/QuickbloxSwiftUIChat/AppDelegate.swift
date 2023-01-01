@@ -16,15 +16,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                         [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         // Set QuickBlox credentials (You must create application in admin.quickblox.com).
-//        Quickblox.initWithApplicationId(0,
-//                                        authKey: "YourAuthKey",
-//                                        authSecret: "YourAuthSecret",
-//                                        accountKey: "YourAccountKey")
-        
-        Quickblox.initWithApplicationId(75949,
-                                        authKey: "DdS7zxMEm5Q7DaS",
-                                        authSecret: "g88RhdOjnDOqFkv",
-                                        accountKey: "uK_8uinNyz8-npTNB6tx")
+        Quickblox.initWithApplicationId(0,
+                                        authKey: "YourAuthKey",
+                                        authSecret: "YourAuthSecret",
+                                        accountKey: "YourAccountKey")
         
         // enabling carbons for chat
         QBSettings.carbonsEnabled = true

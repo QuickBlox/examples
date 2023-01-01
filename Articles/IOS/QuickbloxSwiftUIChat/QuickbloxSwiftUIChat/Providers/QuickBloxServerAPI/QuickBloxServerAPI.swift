@@ -2,7 +2,7 @@
 //  QuickBloxServerAPI.swift
 //  QuickbloxSwiftUIChat
 //
-//  Created by Vladimir Nybozhinsky on 28.12.2022.
+//  Created by Injoit on 28.12.2022.
 //
 
 import Foundation

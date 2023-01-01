@@ -30,7 +30,6 @@ struct DialogsView: View {
                             self.fetchDialogs()
                         }
                 )}
-        
         .navigationBarTitle("Chats", displayMode: .inline)
     }
     
