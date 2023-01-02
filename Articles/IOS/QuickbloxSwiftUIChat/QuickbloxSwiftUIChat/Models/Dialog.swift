@@ -2,7 +2,7 @@
 //  Dialog.swift
 //  QuickbloxSwiftUIChat
 //
-//  Created by Vladimir Nybozhinsky on 20.11.2022.
+//  Created by Injoit on 20.11.2022.
 //
 
 import UIKit
@@ -68,6 +68,37 @@ struct Dialog: Identifiable {
         return dialog.isJoined()
     }
     
+    //MARK - Public Methods
+    func send(_ chatMessage: QBChatMessage, completion:@escaping (_ error: Error?) -> Void) {
+        dialog.send(chatMessage, completionBlock: { error in
+            if let error = error {
+                debugPrint("[Dialog] \(#function) error: \(error.localizedDescription)")
+            }
+            completion(error)
+        })
+    }
+    
+    func joinWithCompletion(_ completion:@escaping QBChatCompletionBlock) {
+        if type != .private, dialog.isJoined() {
+            completion(nil)
+            return
+        }
+        dialog.join { error in
+            if let error = error {
+                debugPrint("error._code = \(error._code)")
+                if error._code == -1006 {
+                    completion(nil)
+                    return
+                }
+                completion(error)
+                return
+            }
+            completion(nil)
+        }
+    }
+}
+
+extension Dialog {
     var title: String {
         var text = dialog.name ?? "Dialog"
 //        if dialog.type == .private {
@@ -104,34 +135,4 @@ struct Dialog: Identifiable {
     var avatarCharacter: String {
         return String(self.title.stringByTrimingWhitespace().capitalized.first ?? Character("C"))
     }
-    
-    //MARK - Public Methods
-    func send(_ chatMessage: QBChatMessage, completion:@escaping (_ error: Error?) -> Void) {
-        dialog.send(chatMessage, completionBlock: { error in
-            if let error = error {
-                debugPrint("[Dialog] \(#function) error: \(error.localizedDescription)")
-            }
-            completion(error)
-        })
-    }
-    
-    func joinWithCompletion(_ completion:@escaping QBChatCompletionBlock) {
-        if type != .private, dialog.isJoined() {
-            completion(nil)
-            return
-        }
-        dialog.join { error in
-            if let error = error {
-                debugPrint("error._code = \(error._code)")
-                if error._code == -1006 {
-                    completion(nil)
-                    return
-                }
-                completion(error)
-                return
-            }
-            completion(nil)
-        }
-    }
 }
-

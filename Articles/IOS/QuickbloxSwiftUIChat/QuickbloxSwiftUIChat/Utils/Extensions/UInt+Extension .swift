@@ -2,7 +2,7 @@
 //  UInt+Extension .swift
 //  QuickbloxSwiftUIChat
 //
-//  Created by Vladimir Nybozhinsky on 20.11.2022.
+//  Created by Injoit on 20.11.2022.
 //
 
 import UIKit
