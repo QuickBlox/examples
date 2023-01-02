@@ -26,6 +26,7 @@
 		2C70FB13295A05F300139B20 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C70FB12295A05F300139B20 /* User.swift */; };
 		2C70FB16295A0BFD00139B20 /* DialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C70FB15295A0BFD00139B20 /* DialogView.swift */; };
 		2C70FB18295A0CA200139B20 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C70FB17295A0CA200139B20 /* Date+Extension.swift */; };
+		2C7186CA29638375005446A4 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7186C929638375005446A4 /* ChatView.swift */; };
 		2C89232E291FF13F00DA746E /* AuthModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C89232D291FF13F00DA746E /* AuthModule.swift */; };
 		2C9E094B2917C553009AC7FA /* BaseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E094A2917C553009AC7FA /* BaseTextField.swift */; };
 		2C9E094D2917C7BA009AC7FA /* DisplayNameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E094C2917C7BA009AC7FA /* DisplayNameTextField.swift */; };
@@ -59,6 +60,7 @@
 		2C70FB12295A05F300139B20 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		2C70FB15295A0BFD00139B20 /* DialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialogView.swift; sourceTree = "<group>"; };
 		2C70FB17295A0CA200139B20 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		2C7186C929638375005446A4 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		2C89232D291FF13F00DA746E /* AuthModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthModule.swift; sourceTree = "<group>"; };
 		2C9E094A2917C553009AC7FA /* BaseTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTextField.swift; sourceTree = "<group>"; };
 		2C9E094C2917C7BA009AC7FA /* DisplayNameTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayNameTextField.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 		2C513AF0290ED0230034909F /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				2C7186C82963832F005446A4 /* ChatScreen */,
 				2C9E094F29180A6C009AC7FA /* DialogsScreen */,
 				2C513AF1290ED03E0034909F /* LoginScreen */,
 			);
@@ -250,6 +253,14 @@
 				2C70FB15295A0BFD00139B20 /* DialogView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2C7186C82963832F005446A4 /* ChatScreen */ = {
+			isa = PBXGroup;
+			children = (
+				2C7186C929638375005446A4 /* ChatView.swift */,
+			);
+			path = ChatScreen;
 			sourceTree = "<group>";
 		};
 		2C89232C291FF11F00DA746E /* AuthModule */ = {
@@ -424,6 +435,7 @@
 				2C512A17292ACD8F00FA5864 /* Profile.swift in Sources */,
 				2C512A0D292AC0D700FA5864 /* ChatManager.swift in Sources */,
 				2C70FB18295A0CA200139B20 /* Date+Extension.swift in Sources */,
+				2C7186CA29638375005446A4 /* ChatView.swift in Sources */,
 				2CC3EB0B290EAB7200B45334 /* LoginButton.swift in Sources */,
 				2C1D75292921095C0042C470 /* Error+Extension.swift in Sources */,
 				2C9E094B2917C553009AC7FA /* BaseTextField.swift in Sources */,
