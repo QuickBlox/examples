@@ -1,0 +1,78 @@
+<h3>{{title}}</h3>
+<hr>
+<div id="ai-rephrase" style="height: 300px; width: 600px;">
+  <form action="/ai-rephrase" method="post">
+    <div style="width: 600px; font-family: monospace; font-size: xx-small;">
+      <div class="row">
+        <div class="col">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">History: </span>
+              <p>
+              <pre>{{history}}</pre>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label>Browser Select Tone</label>
+      <select class="browser-default" name="tone" required>
+        {{#each tones}}
+         <option value="{{this.name}}" >{{iconEmoji}} {{this.name}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="input-field col s12">
+
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="text" name="text" class="materialize-textarea" required>{{textToRephrase}}</textarea>
+          <label for="text">Text to Rephrase:</label>
+        </div>
+      </div>
+
+
+
+      <div>
+        <button class="btn waves-effect waves-light" type="submit" name="action" value="Rephrase" id="submit">
+          Rephrase
+        </button>
+      </div>
+
+  </form>
+
+  <div style="margin: 10px;" id="loader" hidden>
+    <div class="preloader-wrapper big active">
+      <div class="spinner-layer spinner-blue-only">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div>
+        <div class="gap-patch">
+          <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{#if result}}
+  <div style="width: 600px; margin-top: 30px;" id="resultContainer">
+    <div class="row">
+      <div class="col">
+        <label for="text">Result:</label>
+        <div class="card blue-grey darken-1">
+          <div class="card-content white-text">
+            <p>{{result}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/if}}
+</div>
