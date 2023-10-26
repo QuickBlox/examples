@@ -1,0 +1,30 @@
+<nav>
+    <div class="nav-wrapper">
+      <a href="https://quickblox.com/" target="_blank" class="brand-logo">QuickBlox</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+            {{#if isIndex}}
+              <li class="active"><a  href="/">Home</a></li>
+            {{else}}
+              <li><a  href="/">Home</a></li>
+            {{/if}}
+
+            {{#if isAssist}}
+            <li class="active"><a href="/ai-assist">AI Assist</a></li>
+            {{else}}
+            <li><a href="/ai-assist">AI Assist</a></li>
+            {{/if}}
+
+            {{#if isTranslate}}
+            <li class="active"><a href="/ai-translate">AI Translate</a></li>
+            {{else}}
+            <li><a href="/ai-translate">AI Translate</a></li>
+            {{/if}}
+
+            {{#if isRephrase}}
+            <li class="active"><a href="/ai-rephrase">AI Rephrase</a></li>
+            {{else}}
+            <li><a href="/ai-rephrase">AI Rephrase</a></li>
+            {{/if}}
+      </ul>
+    </div>
+  </nav>

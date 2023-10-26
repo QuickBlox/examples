@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+   <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Express JavaScript App</title>
+</head>
+<body>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">QuickBlox</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="#ai-assist">AI Assist</a></li>
+        <li><a href="#ai-translate">AI Translate</a></li>
+        <li><a href="#ai-rephrase">AI Rephrase</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div id="ai-assist" style="height: 300px;">
+    <form action="/ai-lib" method="post" >
+      <label for="text">Text:</label>
+      <input type="text" id="text" name="text" required>
+      <label for="action">Choose Action:</label>
+      <select id="action" name="action">
+        <option value="ai-assist">AI Assist</option>
+        <option value="ai-translate">AI Translate</option>
+        <option value="ai-rephrase">AI Rephrase</option>
+        <!-- Добавьте другие варианты, если необходимо -->
+      </select>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  
+  <hr>
+  <div id="ai-translate" style="height: 300px;">
+    <form action="/ai-lib" method="post">
+      <label for="text">Text:</label>
+      <input type="text" id="text" name="text" required>
+      <label for="action">Choose Action:</label>
+      <select id="action" name="action">
+        <option value="ai-assist">AI Assist</option>
+        <option value="ai-translate">AI Translate</option>
+        <option value="ai-rephrase">AI Rephrase</option>
+        <!-- Добавьте другие варианты, если необходимо -->
+      </select>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <hr>
+  
+  <div id="ai-rephrase" style="height: 300px;">
+    <form action="/ai-lib" method="post" >
+      <label for="text">Text:</label>
+      <input type="text" id="text" name="text" required>
+      <label for="action">Choose Action:</label>
+      <select id="action" name="action">
+        <option value="ai-assist">AI Assist</option>
+        <option value="ai-translate">AI Translate</option>
+        <option value="ai-rephrase">AI Rephrase</option>
+        <!-- Добавьте другие варианты, если необходимо -->
+      </select>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  
+
+   <!-- Compiled and minified JavaScript -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>
