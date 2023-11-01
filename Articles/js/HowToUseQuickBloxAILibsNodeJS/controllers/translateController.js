@@ -1,4 +1,4 @@
-const QBAITranslate = require('qb-ai-translate-artan').QBAITranslate;
+const QBAITranslate = require('qb-ai-translate').QBAITranslate;
 
 history = [
     { role: "user", content: "Good afternoon. Do you like football?" },
@@ -13,9 +13,10 @@ textToTranslate = "Можешь, пожалуйста, объяснить пра
 module.exports.aiCreateTranslate = async function (req, res) {
     try {
         const settings = QBAITranslate.createDefaultAITranslateSettings();
-        settings.apiKey = 'YOUR-API-KEY';
+        settings.apiKey = 'YOUR_API_KEY';
         settings.model = 'gpt-3.5-turbo';
         settings.language = 'Ukrainian';
+        //settings.organization = 'QuickBlox';
         settings.maxTokens = 3584;
 
         settings.language = (req.body.language) ? req.body.language : 'English';

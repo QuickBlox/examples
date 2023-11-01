@@ -1,4 +1,4 @@
-const QBAIRephrase = require('qb-ai-rephrase-artan').QBAIRephrase;
+const QBAIRephrase = require('qb-ai-rephrase').QBAIRephrase;
 
 history = [
     { role: "user", content: "Good afternoon. Do you like football?" },
@@ -96,7 +96,7 @@ textToRephrase = "Sure! In football, two teams of 11 players each try to score g
 module.exports.aiCreateRephrase = async function (req, res) {
     try {
         const settings = QBAIRephrase.createDefaultAIRephraseSettings();
-        settings.apiKey = 'YOUR-API-KEY';
+        settings.apiKey = 'YOUR_API_KEY';
         settings.model = 'gpt-3.5-turbo';
         settings.tone = tones[0]; //Professional Tone
         settings.maxTokens = 3584;
