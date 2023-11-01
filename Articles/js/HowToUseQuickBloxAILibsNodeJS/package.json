@@ -14,10 +14,10 @@
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
-    "qb-ai-answer-assistant-artan": "^0.1.10",
-    "qb-ai-core-artan": "^0.1.13",
-    "qb-ai-rephrase-artan": "^0.1.17",
-    "qb-ai-translate-artan": "^0.1.9"
+    "qb-ai-answer-assistant": "^0.1.1",
+    "qb-ai-core": "^0.1.1",
+    "qb-ai-rephrase": "^0.1.1",
+    "qb-ai-translate": "^0.1.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

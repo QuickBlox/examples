@@ -1,4 +1,4 @@
-const QBAIAnswerAssistant = require('qb-ai-answer-assistant-artan').QBAIAnswerAssistant;
+const QBAIAnswerAssistant = require('qb-ai-answer-assistant').QBAIAnswerAssistant;
 
 history = [
     { role: "user", content: "Good afternoon. Do you like football?" },
@@ -7,7 +7,7 @@ history = [
 ];
 
 //Can you please explain the rules of playing football?
-//Pouvez-vous s'il vous plaît expliquer les règles du football ?
+//Pouvez-vous s'il vo]us plaît expliquer les règles du football ?
 //Können Sie bitte die Regeln des Fußballspiels erklären?
 //"Можешь, пожалуйста, объяснить правила игры в футбол?"
 textToAssist = "Can you please explain the rules of playing football?";
@@ -15,7 +15,7 @@ textToAssist = "Can you please explain the rules of playing football?";
 module.exports.aiCreateAnswer = async function (req, res) {
     try {
         const settings = QBAIAnswerAssistant.createDefaultAIAnswerAssistantSettings();
-        settings.apiKey = 'YOUR-API-KEY';
+        settings.apiKey = 'YOUR_API_KEY';
         settings.model = 'gpt-3.5-turbo';
     
         settings.maxTokens = 3584;
