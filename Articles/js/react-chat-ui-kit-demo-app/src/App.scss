@@ -1,0 +1,21 @@
+@import "styles/_theme_colors_scheme.scss";
+@import "styles/_variables.scss";
+
+.main-buttons-wrapper {
+  margin: 10px;
+  padding-left: 10px;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 10px;
+}
+
+body{
+  font-family: 'Roboto';
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  max-width: 100%;
+  //to hide the scrollbars if DialogInfo clicked
+  overflow: hidden !important;
+  scrollbar-width: none !important;
+}
