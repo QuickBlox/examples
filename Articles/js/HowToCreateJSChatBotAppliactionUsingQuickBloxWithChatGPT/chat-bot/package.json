@@ -11,7 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "openai": "^3.2.1",
+    "dotenv": "^17.4.2",
+    "openai": "^6.44.0",
     "quickblox": "^2.15.5"
   }
 }
